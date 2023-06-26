@@ -1,9 +1,7 @@
 package com.javarush.task.task16.task1630;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.Scanner;
 
 /* 
 Последовательный вывод файлов
@@ -14,6 +12,11 @@ public class Solution {
     public static String secondFileName;
 
     //напишите тут ваш код
+    static {
+        Scanner scanner = new Scanner(System.in);
+        firstFileName = scanner.next();
+        secondFileName = scanner.next();
+    }
 
     public static void main(String[] args) throws InterruptedException {
         systemOutPrintln(firstFileName);
@@ -24,6 +27,7 @@ public class Solution {
         ReadFileInterface f = new ReadFileThread();
         f.setFileName(fileName);
         f.start();
+        f.join();
         System.out.println(f.getFileContent());
     }
 
@@ -39,4 +43,37 @@ public class Solution {
     }
 
     //напишите тут ваш код
+    public static class ReadFileThread extends Thread implements ReadFileInterface {
+        private String fileName;
+        private String content = "";
+        @Override
+        public void setFileName(String fullFileName) {
+            fileName = fullFileName;
+        }
+
+        @Override
+        public void run() {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(fileName));
+                String line;
+                StringBuilder builder = new StringBuilder();
+                String ls = " ";
+                while ( (line = reader.readLine() ) != null ) {
+                    builder.append(line);
+                    builder.append(ls);
+                }
+                builder.deleteCharAt(builder.length() - 1);
+                content = builder.toString();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public String getFileContent() {
+            return content;
+        }
+    }
 }
