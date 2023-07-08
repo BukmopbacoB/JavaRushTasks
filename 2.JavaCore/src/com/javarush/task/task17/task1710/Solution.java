@@ -21,7 +21,6 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        //напишите тут ваш код
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-YYYY", Locale.ENGLISH);
         SimpleDateFormat formatIn = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         Person person;
