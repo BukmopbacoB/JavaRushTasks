@@ -11,5 +11,21 @@ import java.io.InputStreamReader;
 
 public class Solution {
     public static void main(String[] args) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        int countSemicolon = 0;
+        try {
+            String fileName = reader.readLine();
+            FileInputStream inputStream = new FileInputStream(fileName);
+            while (inputStream.available() > 0) {
+                if (inputStream.read() == (int) ',') {
+                    countSemicolon++;
+                }
+            }
+            inputStream.close();
+            reader.close();
+            System.out.println(countSemicolon);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
